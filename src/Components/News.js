@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import NewsItem from "./NewsItem";
+import url from "../config"
 export class News extends Component {
   constructor() {
     super();
@@ -12,7 +13,6 @@ export class News extends Component {
   async componentDidMount()
   {
     console.log("cmd");
-    const url = 'https://newsapi.org/v2/top-headlines?country=in&apiKey=ddcb2ebd3f1f4889b3f5de5186ca2dcf';
     const data = await fetch(url);
     const parsedData = await data.json();
     this.setState({ articles: parsedData.articles });
