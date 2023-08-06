@@ -1,6 +1,6 @@
 import "./App.css";
 import React, { useState } from "react";
-import NavBar from "./Components/NavBar";
+import NavBarMU from "./Components/navbarMU";
 import News from "./Components/News";
 import {
   BrowserRouter ,
@@ -22,7 +22,7 @@ const App = () => {
           <Route
             element={
               <div>
-                <NavBar />
+                <NavBarMU/>
                 <LoadingBar height={3} color='green' progress={progress} />
                 <Outlet/>
               </div>

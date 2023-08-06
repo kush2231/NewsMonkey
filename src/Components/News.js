@@ -4,6 +4,18 @@ import NewsItem from "./NewsItem";
 import Spinner from "./Spinner";
 import PropTypes from "prop-types";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { Grid } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+
+const useStyles = makeStyles((theme) => ({
+  cardContainer: {
+    [theme.breakpoints.down("sm")]: {
+      // For extra-small (xs) devices, show 1 card in a row
+      justifyContent: "center",
+    },
+  },
+}));
+
 
 const News = (props) => {
   const [articles, setArticles] = useState([]);
@@ -11,6 +23,7 @@ const News = (props) => {
   const [page, setPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
 
+  // useStyles();
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
@@ -50,10 +63,7 @@ const News = (props) => {
 
   return (
     <>
-      <h1
-        className='text-center'
-        style={{ margin: "35px 0px", marginTop: "90px" }}
-      >
+      <h1 className='text-center' style={{ margin: "55px 0px 40px 0px " }}>
         NewsMonkey - Top {capitalizeFirstLetter(props.category)} Headlines
       </h1>
       {loading && <Spinner />}
@@ -63,25 +73,29 @@ const News = (props) => {
         hasMore={articles?.length !== totalResults}
         loader={<Spinner />}
       >
-        <div className='container'>
-          <div className='row'>
-            {articles?.map((element) => {
-              return (
-                <div className='col-md-4' key={element?.url}>
-                  <NewsItem
-                    title={element?.title ? element?.title : ""}
-                    description={element?.description ? element?.description : ""}
-                    imageUrl={element?.urlToImage}
-                    newsUrl={element?.url}
-                    author={element?.author}
-                    date={element?.publishedAt}
-                    source={element?.source.name}
-                  />
-                </div>
-              );
-            })}
-          </div>
-        </div>
+        <Grid
+          container
+          rowSpacing={1}
+          columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          sx={{ width: "100%" }}
+        >
+          {articles?.map((element) => {
+            return (
+              <Grid element xs={4} key={element.id}>
+                <NewsItem
+                  title={element?.title ? element?.title : ""}
+                  description={element?.description ? element?.description : ""}
+                  imageUrl={element?.urlToImage}
+                  newsUrl={element?.url}
+                  author={element?.author}
+                  date={element?.publishedAt}
+                  source={element?.source.name}
+                />
+                {/* </Grid> */}
+              </Grid>
+            );
+          })}
+        </Grid>
       </InfiniteScroll>
     </>
   );
