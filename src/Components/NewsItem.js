@@ -8,7 +8,19 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import ShareButtons from "./ShareButtons";
 
-const sharefunction = () => {};
+const sharefunction = (url, title = "Check this out") => {
+  if (navigator.share) {
+    navigator.share({
+      title: title,   
+      url: url,       
+    })
+    .then(() => console.log('Successful share'))
+    .catch((error) => console.log('Error sharing:', error));
+  } else {
+    alert('Sharing is not supported on this device/browser.');
+  }
+};
+
 
 const NewsItem = (props) => {
   let { title, description, imageUrl, newsUrl, author, date, source } = props;
@@ -33,7 +45,7 @@ const NewsItem = (props) => {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size='small' onClick={sharefunction}>
+          <Button size='small'  onClick={() => sharefunction(newsUrl)}>
             Share
           </Button>
           <Button size='small' href={newsUrl} target='_blank'>
