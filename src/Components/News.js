@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import {  baseUrl } from '../config.js';
 
 const useStyles = makeStyles((theme) => ({
   cardContainer: {
@@ -30,14 +31,21 @@ const News = (props) => {
 
   const updateNews = async () => {
     props.setProgress(10);
-    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
+    // const response = await fetch('http://localhost:5000/api/news?country=in&category=technology&apiKey=your-secret-api-key');
+    //     const data = await response.json();
+    const url = `${baseUrl}/api/news/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
+    // const url = "https://newsapi.org/v2/top-headlines?country=us&apiKey=ddcb2ebd3f1f4889b3f5de5186ca2dcf"
     setLoading(true);
     let data = await fetch(url);
+    if (!data.ok) {
+      console.log('Error fetching ');
+      throw new Error(`HTTP error! status: ${data.status}`);
+    }
     props.setProgress(30);
     let parsedData = await data.json();
     props.setProgress(70);
-    setArticles(parsedData.articles);
-    setTotalResults(parsedData.totalResults);
+    setArticles(parsedData.data);
+    setTotalResults(parsedData.meta.found);
     setLoading(false);
     props.setProgress(100);
   };
@@ -48,8 +56,8 @@ const News = (props) => {
     // eslint-disable-next-line
   }, []);
 
-  const fetchMoreData = async () => {
-    const url = `https://newsapi.org/v2/top-headlines?country=${
+  const fetchMoreData = async () => { // const url = `http://localhost:5001/api/news/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
+    const url = `${baseUrl}/api/news/top-headlines?country=${
       props.country
     }&category=${props.category}&apiKey=${props.apiKey}&page=${
       page + 1
@@ -57,8 +65,8 @@ const News = (props) => {
     setPage(page + 1);
     let data = await fetch(url);
     let parsedData = await data.json();
-    setArticles(articles.concat(parsedData.articles));
-    setTotalResults(parsedData.totalResults);
+    setArticles(articles.concat(parsedData.data));
+    setTotalResults(parsedData.meta.found);
   };
 
   return (
@@ -81,7 +89,7 @@ const News = (props) => {
         >
           {articles?.map((element) => {
             return (
-              <Grid element xs={4} key={element.id}>
+              <Grid element xs={4} key={element.uuid}>
                 <NewsItem
                   title={element?.title ? element?.title : ""}
                   description={element?.description ? element?.description : ""}
@@ -102,7 +110,7 @@ const News = (props) => {
 };
 
 News.defaultProps = {
-  country: "in",
+  country: "us",
   pageSize: 8,
   category: "general",
 };

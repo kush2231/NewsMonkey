@@ -9,7 +9,7 @@ import {
   Routes,
 } from "react-router-dom";
 import LoadingBar from "react-top-loading-bar";
-import apiKey from "./config";
+import { apiKey } from './config.js';
 const App = () => {
   const pageSize = 5;
   // console.log(apiKey);
