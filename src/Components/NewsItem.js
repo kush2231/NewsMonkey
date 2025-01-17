@@ -29,7 +29,7 @@ const NewsItem = (props) => {
     : "https://fdn.gsmarena.com/imgroot/news/21/08/xiaomi-smart-home-india-annoucnements/-476x249w4/gsmarena_00.jpg";
   return (
     <>
-      <Card sx={{ maxWidth: 345, marginTop: "10px", marginLeft: "45px" }}>
+      <Card sx={{ maxWidth: 345, marginTop: "10px", marginLeft: "0px" }}>
         <CardMedia sx={{ height: 200 }} image={imageUrl} title='green iguana' />
         <CardContent>
           <Typography gutterBottom variant='h5' component='div'>

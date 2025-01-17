@@ -4,9 +4,9 @@ import NewsItem from "./NewsItem";
 import Spinner from "./Spinner";
 import PropTypes from "prop-types";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { Grid } from "@mui/material";
+import { Grid, Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import {  baseUrl } from '../config.js';
+import { baseUrl } from '../config.js';
 
 const useStyles = makeStyles((theme) => ({
   cardContainer: {
@@ -57,11 +57,9 @@ const News = (props) => {
   }, []);
 
   const fetchMoreData = async () => { // const url = `http://localhost:5001/api/news/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
-    const url = `${baseUrl}/api/news/top-headlines?country=${
-      props.country
-    }&category=${props.category}&apiKey=${props.apiKey}&page=${
-      page + 1
-    }&pageSize=${props.pageSize}`;
+    const url = `${baseUrl}/api/news/top-headlines?country=${props.country
+      }&category=${props.category}&apiKey=${props.apiKey}&page=${page + 1
+      }&pageSize=${props.pageSize}`;
     setPage(page + 1);
     let data = await fetch(url);
     let parsedData = await data.json();
@@ -81,15 +79,19 @@ const News = (props) => {
         hasMore={articles?.length !== totalResults}
         loader={<Spinner />}
       >
-        <Grid
-          container
-          rowSpacing={1}
-          columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-          sx={{ width: "100%" }}
+        <Box
+          sx={{
+            px: 2,
+          }}
         >
-          {articles?.map((element) => {
-            return (
-              <Grid element xs={4} key={element.uuid}>
+          <Grid
+            container
+            spacing={2}
+            justifyContent="center"
+            alignItems="center"
+          >
+            {articles?.map((element) => (
+              <Grid item xs={12} sm={6} md={4} key={element.uuid}>
                 <NewsItem
                   title={element?.title ? element?.title : ""}
                   description={element?.description ? element?.description : ""}
@@ -99,11 +101,10 @@ const News = (props) => {
                   date={element?.publishedAt}
                   source={element?.source.name}
                 />
-                {/* </Grid> */}
               </Grid>
-            );
-          })}
-        </Grid>
+            ))}
+          </Grid>
+        </Box>
       </InfiniteScroll>
     </>
   );

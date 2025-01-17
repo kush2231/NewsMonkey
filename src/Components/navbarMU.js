@@ -35,9 +35,9 @@ const NavBarMU = () => {
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
+  // const handleOpenUserMenu = (event) => {
+  //   setAnchorElUser(event.currentTarget);
+  // };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
@@ -117,7 +117,7 @@ const NavBarMU = () => {
               ))}
             </Menu>
           </Box>
-          <img src={logo} alt="App Logo" style={{ width: "50px", height: "50px" }} />
+          {/* <img src={logo} alt="App Logo" style={{ width: "50px", height: "50px" }} /> */}
           {/* <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
             variant='h5'

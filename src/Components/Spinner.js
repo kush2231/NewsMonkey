@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import loading from './Rounded blocks.gif'
-export default class Spinner extends Component {
+import loader from './Rounded blocks.gif'
+export default class Spinner extends Component { // class based component 
   render() {
       return (
         <div className='text-center'>
-          <img src={loading} alt='loading' />
+          <img src={loader} alt='loading' />
         </div>
       );
   }
